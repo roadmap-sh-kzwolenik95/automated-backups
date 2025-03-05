@@ -1,0 +1,26 @@
+- name: Ensure sudo group exists
+  ansible.builtin.group:
+    name: sudo
+    state: present
+
+- name: Create ubuntu user
+  ansible.builtin.user:
+    name: ubuntu
+    state: present
+    groups: sudo
+    append: true
+    create_home: true
+
+- name: Configure passwordless sudo for sudo group
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: "^%sudo"
+    line: "%sudo ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
+
+- name: Add first authorized key from root to ubuntu user
+  ansible.posix.authorized_key:
+    user: ubuntu
+    state: present
+    key: "{{ lookup('file', '/root/.ssh/authorized_keys').split('\n') | first }}"

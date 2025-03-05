@@ -1,0 +1,8 @@
+- name: Setup server
+  hosts: all
+  remote_user: root
+  roles:
+    - role: base
+      tags: [base]
+    - role: mongo
+      tags: [mongo]
