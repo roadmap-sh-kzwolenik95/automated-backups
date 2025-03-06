@@ -29,3 +29,9 @@
     user: ubuntu
     state: present
     key: "{{ authorized_key.stdout }}"
+
+- name: Python 3.12 is present
+  ansible.builtin.apt:
+    name: ansible
+    state: present
+    update_cache: true
