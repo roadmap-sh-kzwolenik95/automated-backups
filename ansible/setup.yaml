@@ -6,4 +6,3 @@
       tags: [base]
     - role: mongo
       tags: [mongo]
-

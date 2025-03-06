@@ -60,6 +60,8 @@ jobs:
         (success() && (needs.terraform.result == 'success' || needs.terraform.result == 'skipped') && needs.changes.outputs.ansible == 'true' )
       }}
     runs-on: ubuntu-latest
+    env:
+      DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_API_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
