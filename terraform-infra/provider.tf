@@ -1,4 +1,12 @@
 terraform {
+  cloud {
+    organization = "roadmap-sh"
+    hostname     = "app.terraform.io"
+
+    workspaces {
+      name = "automated-backups"
+    }
+  }
   required_providers {
     digitalocean = {
       source  = "digitalocean/digitalocean"
