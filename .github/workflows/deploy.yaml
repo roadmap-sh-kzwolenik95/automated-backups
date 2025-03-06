@@ -1,0 +1,76 @@
+name: Deploy stack
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.terraform }}
+      ansible: ${{ steps.filter.outputs.ansible }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            terraform:
+              - 'terraform-infra/**'
+            ansible:
+              - 'ansible/**'
+
+  terraform:
+    needs: changes
+    if: ${{ needs.changes.outputs.terraform == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_do_token: ${{ secrets.DIGITALOCEAN_API_TOKEN }}
+      TF_VAR_ssh_key_name: ${{ vars.DO_KEY_NAME }}
+      TF_TOKEN_app_terraform_io: ${{ secrets.HCP_TERRAFORM_TOKEN }}
+      TF_FORCE_LOCAL_BACKEND: 1
+    defaults:
+      run:
+        working-directory: terraform-infra
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.2
+
+      - run: terraform init
+      - run: terraform validate -no-color
+      - run: terraform apply -no-color --auto-approve
+
+  ansible:
+    needs:
+      - changes
+      - terraform
+    if: >-
+      ${{ 
+        (success() && (needs.terraform.result == 'success' || needs.terraform.result == 'skipped') && needs.changes.outputs.ansible == 'true' )
+      }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run ansible
+        uses: dawidd6/action-ansible-playbook@v2.8.0
+        env:
+          ANSIBLE_TIMEOUT: 60
+        with:
+          playbook: setup.yaml
+          directory: ansible
+          key: ${{ secrets.SSH_PRIV_KEY }}
+          options: |
+            --inventory inventory_digitalocean.yaml
