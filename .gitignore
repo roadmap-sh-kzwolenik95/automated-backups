@@ -38,3 +38,9 @@ terraform.rc
 
 # Ignore .envrc because it contains sensitive information
 .envrc
+
+# ignore venv
+**/venv/*
+
+# ignore vscode settings
+.vscode/*
