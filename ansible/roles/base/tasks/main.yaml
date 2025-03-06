@@ -8,6 +8,7 @@
     name: ubuntu
     state: present
     groups: sudo
+    shell: /bin/bash
     append: true
     create_home: true
 
