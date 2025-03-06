@@ -38,6 +38,6 @@ resource "digitalocean_droplet" "ubuntu" {
 }
 
 resource "digitalocean_spaces_bucket" "sos" {
-  name   = "backups"
+  name   = "backups-roadmapsh-kzwolenik95"
   region = "fra1"
 }
