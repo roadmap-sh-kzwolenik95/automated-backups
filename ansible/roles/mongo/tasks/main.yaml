@@ -15,3 +15,9 @@
     name: mongodb-org
     update_cache: true
     state: present
+
+- name: Enable and start mongod service
+  ansible.builtin.systemd_service:
+    name: mongod
+    state: started
+    enabled: true
