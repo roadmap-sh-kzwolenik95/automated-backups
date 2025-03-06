@@ -20,11 +20,12 @@
     validate: "visudo -cf %s"
 
 - name: Store the first authorized key from root user
-  ansible.builtin.set_fact:
-    authorized_key: "{{ lookup('file', '/root/.ssh/authorized_keys').split('\n') | first }}"
+  ansible.builtin.command: "head -n 1 /root/.ssh/authorized_keys"
+  register: authorized_key
+  changed_when: false
 
 - name: Add first authorized key from root to ubuntu user
   ansible.posix.authorized_key:
     user: ubuntu
     state: present
-    key: "{{ authorized_key }}"
+    key: "{{ authorized_key.stdout }}"
