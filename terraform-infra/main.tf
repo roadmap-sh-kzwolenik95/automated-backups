@@ -36,3 +36,8 @@ resource "digitalocean_droplet" "ubuntu" {
   ]
   tags = ["roadmapsh-ab"]
 }
+
+resource "digitalocean_spaces_bucket" "sos" {
+  name   = "backups"
+  region = "fra1"
+}
