@@ -57,7 +57,7 @@ jobs:
       - terraform
     if: >-
       ${{ 
-        (success() && (needs.terraform.result == 'success' || needs.terraform.result == 'skipped') && needs.changes.outputs.ansible == 'true' )
+        (always() && (needs.terraform.result == 'success' || needs.terraform.result == 'skipped') && needs.changes.outputs.ansible == 'true' )
       }}
     runs-on: ubuntu-latest
     env:
