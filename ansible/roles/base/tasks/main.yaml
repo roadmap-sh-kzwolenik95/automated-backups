@@ -19,8 +19,12 @@
     line: "%sudo ALL=(ALL) NOPASSWD: ALL"
     validate: "visudo -cf %s"
 
+- name: Store the first authorized key from root user
+  ansible.builtin.set_fact:
+    authorized_key: "{{ lookup('file', '/root/.ssh/authorized_keys').split('\n') | first }}"
+
 - name: Add first authorized key from root to ubuntu user
   ansible.posix.authorized_key:
     user: ubuntu
     state: present
-    key: "{{ lookup('file', '/root/.ssh/authorized_keys').split('\n') | first }}"
+    key: "{{ authorized_key }}"
