@@ -1,0 +1,12 @@
+[Unit]
+Description=Mongodb backup
+
+[Service]
+Type=oneshot
+LoadCredential=do_access_key:/usr/local/bin/mongo-backup/credentials/do_access_key
+ExecStart=/usr/local/bin/mongo-backup/backup-to-digitalocean-bucket.sh
+WorkingDirectory=/usr/local/bin/mongo-backup/
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

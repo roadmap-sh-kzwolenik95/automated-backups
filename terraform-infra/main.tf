@@ -17,8 +17,8 @@ data "digitalocean_images" "available" {
     values = ["base"]
   }
   sort {
-    key       = "created"
-    direction = "asc"
+    key       = "name"
+    direction = "desc"
   }
 }
 
