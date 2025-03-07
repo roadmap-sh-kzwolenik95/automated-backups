@@ -73,7 +73,7 @@ jobs:
         with:
           filters: |
             roles:
-              - 'roles/**'
+              - 'ansible/roles/**'
 
       - name: Log roles_files output
         run: |
