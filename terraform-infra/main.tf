@@ -18,7 +18,7 @@ data "digitalocean_images" "available" {
   }
   sort {
     key       = "created"
-    direction = "desc"
+    direction = "asc"
   }
 }
 
