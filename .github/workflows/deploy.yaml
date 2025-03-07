@@ -74,6 +74,7 @@ jobs:
           filters: |
             roles:
               - 'ansible/roles/**'
+          list-files: json
 
       - name: Log roles_files output
         run: |
