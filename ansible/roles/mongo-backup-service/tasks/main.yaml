@@ -7,11 +7,11 @@
   community.general.systemd_creds_encrypt:
     name: do_access_secret
     pretty: true
-    secret: |
-      {
-          "id": "{{ lookup('ansible.builtin.env', 'DO_SPACES_ACCESS_ID') }}",
-          "key": "{{ lookup('ansible.builtin.env', 'DO_SPACES_ACCESS_KEY') }}"
-      }
+    secret: >
+      {{ {
+          'id': lookup('ansible.builtin.env', 'DO_SPACES_ACCESS_ID') ,
+          'key': lookup('ansible.builtin.env', 'DO_SPACES_ACCESS_KEY')
+      } | to_json }}
   register: do_access_secret
 
 - name: Copy script to remote server

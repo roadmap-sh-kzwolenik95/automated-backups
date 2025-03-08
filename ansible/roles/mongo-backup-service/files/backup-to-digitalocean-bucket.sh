@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 filename="dump-$(date '+%Y%m%d%H%M%S').gz"
 
