@@ -27,8 +27,8 @@
     owner: root
     group: root
     mode: "0644"
-    vars:
-      s3-secret: "{{ do_access_secret }}"
+  vars:
+    s3-secret: "{{ do_access_secret }}"
 
 - name: Create timer unit
   ansible.builtin.copy:
