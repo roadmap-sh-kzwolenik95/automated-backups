@@ -80,7 +80,7 @@ jobs:
         id: roles
         if: ${{ steps.filter.outputs.roles == 'true' }}
         run: |
-          changed_roles=$(echo ${{ steps.filter.outputs.roles_files }} | jq -r '[.[] | split("/")[2]] | sort | unique | join(",")'
+          changed_roles=$(echo '${{ steps.filter.outputs.roles_files }}' | jq -r '[.[] | split("/")[2]] | sort | unique | join(",")')
           echo "Changed roles: $changed_roles"
           echo "changed_roles=$changed_roles" >> $GITHUB_OUTPUT
 
