@@ -10,6 +10,6 @@ export AWS_SECRET_ACCESS_KEY=$(jq -r '.key' < "${CREDENTIALS_DIRECTORY}/do_acces
 
 s3cmd --host="fra1.digitaloceanspaces.com" \
       --host-bucket="%(bucket)s.fra1.digitaloceanspaces.com" \
-      put dump.gz s3://backups-roadmapsh-kzwolenik95/
+      put "${filename}" s3://backups-roadmapsh-kzwolenik95/
 
 rm "${filename}"
