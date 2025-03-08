@@ -13,6 +13,7 @@
     update_cache: true
 
 - name: Copy python scripts to remote server
+  remote_user: ubuntu
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: /home/ubuntu/wikipedia-mongodb-seeder/
@@ -22,6 +23,7 @@
     - "files/*.py"
 
 - name: Copy requirements to remote server
+  remote_user: ubuntu
   ansible.builtin.copy:
     src: files/requirements.txt
     dest: /home/ubuntu/wikipedia-mongodb-seeder/
@@ -29,7 +31,8 @@
     mode: "0775"
 
 - name: Install Python requirements
+  remote_user: ubuntu
   ansible.builtin.pip:
     virtualenv: /home/ubuntu/wikipedia-mongodb-seeder/venv
     virtualenv_command: python3.12 -m venv
-    requirements: requirements.txt
+    requirements: /home/ubuntu/wikipedia-mongodb-seeder/requirements.txt
