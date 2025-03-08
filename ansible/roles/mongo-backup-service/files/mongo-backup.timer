@@ -1,9 +1,9 @@
 [Unit]
-Description=Mongodb backup service
+Description=Mongodb backup service timer every 12h
 
 [Timer]
 OnCalendar=*-*-* 06:00:00
 OnCalendar=*-*-* 18:00:00
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=timers.target

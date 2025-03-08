@@ -3,6 +3,6 @@
     src: "{{ item }}"
     dest: /home/ubuntu/
     owner: ubuntu
-    mode: "0664"
+    mode: "0775"
   with_fileglob:
     - "files/*.py"
