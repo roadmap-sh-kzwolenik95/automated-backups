@@ -1,3 +1,16 @@
+- name: Add Deadsnakes PPA for Python 3.12
+  ansible.builtin.apt_repository:
+    repo: ppa:deadsnakes/ppa
+    state: present
+
+- name: Install Python 3.12
+  ansible.builtin.apt:
+    name:
+      - python3.12
+      - python3-pip
+    state: present
+    update_cache: true
+
 - name: Copy python scripts to remote server
   ansible.builtin.copy:
     src: "{{ item }}"
@@ -6,3 +19,14 @@
     mode: "0775"
   with_fileglob:
     - "files/*.py"
+
+- name: Copy requirements to remote server
+  ansible.builtin.copy:
+    src: files/requirements.txt
+    dest: /home/ubuntu/
+    owner: ubuntu
+    mode: "0775"
+
+- name: Install Python requirements
+  ansible.builtin.pip:
+    requirements: requirements.txt

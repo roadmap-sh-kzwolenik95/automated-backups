@@ -30,14 +30,3 @@
     user: ubuntu
     state: present
     key: "{{ authorized_key.stdout }}"
-
-- name: Add Deadsnakes PPA for Python 3.12
-  ansible.builtin.apt_repository:
-    repo: ppa:deadsnakes/ppa
-    state: present
-
-- name: Install Python 3.12
-  ansible.builtin.apt:
-    name: ansible
-    state: present
-    update_cache: true
