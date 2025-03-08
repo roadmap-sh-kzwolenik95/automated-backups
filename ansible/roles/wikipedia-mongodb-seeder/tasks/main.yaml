@@ -8,6 +8,7 @@
     name:
       - python3.12
       - python3-pip
+      - python3.12-venv
     state: present
     update_cache: true
 
@@ -30,4 +31,5 @@
 - name: Install Python requirements
   ansible.builtin.pip:
     virtualenv: /home/ubuntu/wikipedia-mongodb-seeder/venv
+    virtualenv_command: python3.12 -m venv
     requirements: requirements.txt
