@@ -1,0 +1,2 @@
+pymongo>=4
+Wikipedia-API>=0.8
