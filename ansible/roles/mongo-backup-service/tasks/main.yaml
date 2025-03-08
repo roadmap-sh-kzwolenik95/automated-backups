@@ -3,12 +3,15 @@
     name: s3cmd
     state: present
 
-# - name: Encrypt secret
-#   community.general.systemd_creds_encrypt:
-#     name: do_access_key
-#     not_after: +48hr
-#     secret: "{{ do_access_key }}"
-#   register: encrypted_secret
+- name: Encrypt secret
+  community.general.systemd_creds_encrypt:
+    name: do_access_secret
+    secret: |
+      {
+          "id": {{ lookup('ansible.builtin.env', 'DO_SPACES_ACCESS_ID') }},
+          "key": {{ lookup('ansible.builtin.env', 'DO_SPACES_ACCESS_KEY') }}
+      }
+  register: do_access_secret
 
 - name: Copy script to remote server
   ansible.builtin.copy:
@@ -17,14 +20,23 @@
     owner: ubuntu
     mode: "0700"
 
-- name: Copy python scripts to remote server
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: /etc/systemd/system/
-    owner: ubuntu
+- name: Create service unit
+  ansible.builtin.template:
+    src: templates/mongo-backup.service.j2
+    dest: /etc/systemd/system/mongo-backup.service
+    owner: root
+    group: root
     mode: "0644"
-  with_fileglob:
-    - "files/mongo-backup*"
+    vars:
+      s3-secret: "{{ do_access_secret }}"
+
+- name: Create timer unit
+  ansible.builtin.copy:
+    src: mongo-backup.timer
+    dest: /etc/systemd/system/
+    owner: root
+    group: root
+    mode: "0644"
 
 - name: Enable mongo-backup.service
   ansible.builtin.systemd_service:

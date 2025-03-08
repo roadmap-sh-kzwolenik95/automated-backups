@@ -89,6 +89,8 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v2.8.0
         env:
           ANSIBLE_TIMEOUT: 60
+          DO_SPACES_ACCESS_ID: ${{ secrets.DO_SPACES_ACCESS_ID }}
+          DO_SPACES_ACCESS_KEY: ${{ secrets.DO_SPACES_ACCESS_KEY }}
         with:
           playbook: setup.yaml
           directory: ansible
