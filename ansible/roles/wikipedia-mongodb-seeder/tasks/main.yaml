@@ -14,7 +14,7 @@
 - name: Copy python scripts to remote server
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: /home/ubuntu/
+    dest: /home/ubuntu/wikipedia-mongodb-seeder
     owner: ubuntu
     mode: "0775"
   with_fileglob:
@@ -23,10 +23,11 @@
 - name: Copy requirements to remote server
   ansible.builtin.copy:
     src: files/requirements.txt
-    dest: /home/ubuntu/
+    dest: /home/ubuntu/wikipedia-mongodb-seeder
     owner: ubuntu
     mode: "0775"
 
 - name: Install Python requirements
   ansible.builtin.pip:
+    virtualenv: /home/ubuntu/wikipedia-mongodb-seeder/venv
     requirements: requirements.txt
