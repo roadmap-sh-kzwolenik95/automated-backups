@@ -44,3 +44,10 @@
     name: mongo-backup.service
     enabled: true
     daemon_reload: true
+
+- name: Enable and start mongo-backup.timer
+  ansible.builtin.systemd_service:
+    name: mongo-backup.timer
+    state: started
+    enabled: true
+    daemon_reload: true
