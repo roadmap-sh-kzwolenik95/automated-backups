@@ -3,7 +3,7 @@ Description=Mongodb backup
 
 [Service]
 Type=oneshot
-{{ s3-secret }}
+{{ s3_secret }}
 ExecStart=/usr/local/bin/mongo-backup/backup-to-digitalocean-bucket.sh
 WorkingDirectory=/usr/local/bin/mongo-backup/
 
