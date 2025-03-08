@@ -6,12 +6,7 @@
       tags: [base]
     - role: mongo
       tags: [mongo]
-  tasks:
-    - name: Copy python scripts to remote server
-      ansible.builtin.copy:
-        src: "{{ item }}"
-        dest: /home/ubuntu/
-        owner: ubuntu
-        mode: "0664"
-      with_fileglob:
-        - "../wikipedia-mongodb-seeder/*.py"
+    - role: mongo-backup-service
+      tags: [mongo-backup-service]
+    - role: wikipedia-mongodb-seeder
+      tags: [wikipedia-mongodb-seeder]

@@ -1,0 +1,15 @@
+- name: Copy script to remote server
+  ansible.builtin.copy:
+    src: files/backup-to-digitalocean-bucket.sh
+    dest: /usr/local/bin/mongo-backup/
+    owner: ubuntu
+    mode: "0700"
+
+- name: Copy python scripts to remote server
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /etc/systemd/system/
+    owner: ubuntu
+    mode: "0644"
+  with_fileglob:
+    - "files/mongo-backup*"

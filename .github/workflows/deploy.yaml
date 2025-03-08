@@ -76,11 +76,16 @@ jobs:
               - 'ansible/roles/**'
           list-files: json
 
-      - name: Log roles_files output
+      - name: Get changed roles
+        id: roles
+        if: ${{ steps.filter.outputs.roles == 'true' }}
         run: |
-          echo "roles_files=${{ steps.filter.outputs.roles_files }}" >> $GITHUB_OUTPUT
+          changed_roles=$(echo ${{ steps.filter.outputs.roles_files }} | jq -r '[.[] | split("/")[2]] | sort | unique | join(",")'
+          echo "Changed roles: $changed_roles"
+          echo "changed_roles=$changed_roles" >> $GITHUB_OUTPUT
 
       - name: Run ansible
+        if: ${{ steps.filter.outputs.roles == 'true' }}
         uses: dawidd6/action-ansible-playbook@v2.8.0
         env:
           ANSIBLE_TIMEOUT: 60
@@ -90,3 +95,4 @@ jobs:
           key: ${{ secrets.SSH_PRIV_KEY }}
           options: |
             --inventory inventory_digitalocean.yaml
+            --tags "${{ steps.roles.outputs.changed_roles }}"
