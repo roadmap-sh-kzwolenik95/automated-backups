@@ -6,6 +6,7 @@
 - name: Encrypt secret
   community.general.systemd_creds_encrypt:
     name: do_access_secret
+    pretty: true
     secret: |
       {
           "id": {{ lookup('ansible.builtin.env', 'DO_SPACES_ACCESS_ID') }},
@@ -28,7 +29,7 @@
     group: root
     mode: "0644"
   vars:
-    s3_secret: "{{ do_access_secret }}"
+    s3_secret: "{{ do_access_secret.value }}"
 
 - name: Create timer unit
   ansible.builtin.copy:
