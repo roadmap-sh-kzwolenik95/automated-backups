@@ -3,8 +3,8 @@ Description=Mongodb backup
 
 [Service]
 Type=oneshot
-LoadCredential=do_access_key:/usr/local/bin/mongo-backup/credentials/do_access_key
-ExecStart=/usr/local/bin/mongo-backup/backup-to-digitalocean-bucket.sh
+LoadCredentialEncrypted=do_access_key:/etc/secrets/do_access_key.cred
+ExecStart=/usr/local/bin/mongo-backup/backup-to-digitalocean-bucket.py
 WorkingDirectory=/usr/local/bin/mongo-backup/
 RemainAfterExit=yes
 

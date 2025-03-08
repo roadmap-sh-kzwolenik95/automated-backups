@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-echo "test"
+mongodump --gzip --archive=dump.gz
+

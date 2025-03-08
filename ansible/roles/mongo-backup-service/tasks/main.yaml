@@ -1,3 +1,15 @@
+- name: Install s3cmd
+  ansible.builtin.apt:
+    name: s3cmd
+    state: present
+
+# - name: Encrypt secret
+#   community.general.systemd_creds_encrypt:
+#     name: do_access_key
+#     not_after: +48hr
+#     secret: "{{ do_access_key }}"
+#   register: encrypted_secret
+
 - name: Copy script to remote server
   ansible.builtin.copy:
     src: files/backup-to-digitalocean-bucket.sh
@@ -13,3 +25,9 @@
     mode: "0644"
   with_fileglob:
     - "files/mongo-backup*"
+
+- name: Enable mongo-backup.service
+  ansible.builtin.systemd_service:
+    name: mongo-backup.service
+    enabled: true
+    daemon_reload: true
